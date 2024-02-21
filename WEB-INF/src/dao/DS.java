@@ -8,7 +8,7 @@ public class DS {
             Class.forName("org.postgresql.Driver");
 
             String url = "jdbc:postgresql://psqlserv/but2";
-            String nom = "paulcanceletu";
+            String nom = "kellianmireyetu";
             String mdp = "moi";
             return DriverManager.getConnection(url, nom, mdp);
         } catch (Exception e) {
