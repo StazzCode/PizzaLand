@@ -10,7 +10,8 @@ import java.util.List;
 import dto.Ingredient;
 
 public class IngredientDAODatabase implements DAOIngredient{
-    Connection con;
+    private Connection con;
+    private static int cpt = 0;
 
     public IngredientDAODatabase() {
         this.con = DS.getConnection();
@@ -25,7 +26,7 @@ public class IngredientDAODatabase implements DAOIngredient{
             ResultSet rs =  stmt.executeQuery(request);
 
             while(rs.next()){
-                res.add(new Ingredient(rs.getInt("id"), rs.getString("name")));
+                res.add(new Ingredient(rs.getInt("id"), rs.getString("name"), rs.getDouble("prix")));
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -43,7 +44,7 @@ public class IngredientDAODatabase implements DAOIngredient{
             ResultSet rs = ps.executeQuery();
   
             if (rs.next()) {
-                res = new Ingredient(rs.getInt("id"), rs.getString("name"));
+                res = new Ingredient(rs.getInt("id"), rs.getString("name"), rs.getDouble("prix"));
             }
             
             ps.close();
@@ -55,16 +56,31 @@ public class IngredientDAODatabase implements DAOIngredient{
 
     @Override
     public void save(Ingredient i) {
-        this.save(i.getId(), i.getName());
+        this.save(i.getId(), i.getName(), i.getPrix());
     }
 
     @Override
-    public void save(int id, String name) {
+    public void save(int id, String name, double prix) {
         try{
-            String request = "INSERT INTO ingredients VALUES(?, ?)";
+            String request = "INSERT INTO ingredients VALUES(?, ?, ?)";
             PreparedStatement ps = this.con.prepareStatement(request);
             ps.setInt(1, id);
             ps.setString(2, name);
+            ps.setDouble(3, prix);
+            ps.executeUpdate();
+
+            ps.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void remove(int id) {
+        try{
+            String request = "DELETE FROM ingredients WHERE id = ?";
+            PreparedStatement ps = this.con.prepareStatement(request);
+            ps.setInt(1, id);
             ps.executeUpdate();
 
             ps.close();

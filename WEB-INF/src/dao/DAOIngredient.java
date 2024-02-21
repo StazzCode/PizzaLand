@@ -11,5 +11,7 @@ public interface DAOIngredient {
 
     public void save(Ingredient i);
 
-    public void save(int id, String name);
+    public void save(int id, String name, double prix);
+
+    public void remove(int id);
 } 

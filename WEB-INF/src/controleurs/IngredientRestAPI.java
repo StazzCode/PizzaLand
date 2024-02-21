@@ -8,6 +8,7 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import dao.DAOIngredient;
 import dao.IngredientDAODatabase;
 import dto.Ingredient;
 import jakarta.servlet.ServletException;
@@ -18,7 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/ingredients/*")
 public class IngredientRestAPI extends HttpServlet{
-    IngredientDAODatabase dao = new IngredientDAODatabase();
+    DAOIngredient dao = new IngredientDAODatabase();
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -32,7 +33,7 @@ public class IngredientRestAPI extends HttpServlet{
             return;
         }
         String[] splits = info.split("/");
-        if(splits.length != 2){
+        if(splits.length < 2 || splits.length > 3){
             res.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
@@ -43,8 +44,13 @@ public class IngredientRestAPI extends HttpServlet{
             res.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
-
-        out.println(obj.writeValueAsString(i));
+        if(splits.length == 2){
+            out.println(obj.writeValueAsString(i));
+        }else if(splits[2].equals("name")){
+            out.println(obj.writeValueAsString(i.getName()));
+        }else{
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        }
         return;
     }
 
@@ -62,5 +68,32 @@ public class IngredientRestAPI extends HttpServlet{
         }
         dao.save(i);
         out.println(data);
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        res.setContentType("application/json;charset=UTF-8");
+        ObjectMapper obj = new ObjectMapper();
+        PrintWriter out = res.getWriter();
+        String info = req.getPathInfo();
+
+        if(info == null || info.equals("/")){
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+
+        String[] splits = info.split("/");
+        if(splits.length!=2){
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+
+        int id = Integer.parseInt(splits[2]);
+        if(dao.findById(id) == null){
+            res.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+        dao.remove(id);
+        
     }
 }
