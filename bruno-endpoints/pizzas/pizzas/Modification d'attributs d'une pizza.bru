@@ -1,0 +1,18 @@
+meta {
+  name: Modification d'attributs d'une pizza
+  type: http
+  seq: 5
+}
+
+patch {
+  url: http://localhost:8080/pizzaland-cancel-mirey/pizzas/5
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name" : "pizza fromage",
+    "ingredients" : ["1"]
+  }
+}

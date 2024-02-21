@@ -1,0 +1,19 @@
+meta {
+  name: Ajout d'une nouvelle pizzas avec ses ingrédients
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/pizzaland-cancel-mirey/pizzas
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id" : "5",
+    "name" : "Pizza Fromage Ananas",
+    "ingredients" : ["1", "2"]
+  }
+}

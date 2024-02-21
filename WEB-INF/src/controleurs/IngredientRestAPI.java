@@ -100,8 +100,7 @@ public class IngredientRestAPI extends HttpServlet{
             res.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
-        out.println(obj.writeValueAsString(i));
         dao.remove(id);
-        
+        res.sendError(HttpServletResponse.SC_NO_CONTENT);
     }
 }
