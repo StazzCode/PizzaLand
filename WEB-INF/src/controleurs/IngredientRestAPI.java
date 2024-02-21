@@ -38,18 +38,24 @@ public class IngredientRestAPI extends HttpServlet{
             return;
         }
 
-        int id = Integer.parseInt(splits[1]);
-        Ingredient i = dao.findById(id);
-        if(i == null){
-            res.sendError(HttpServletResponse.SC_NOT_FOUND);
-            return;
-        }
-        if(splits.length == 2){
-            out.println(obj.writeValueAsString(i));
-        }else if(splits[2].equals("name")){
-            out.println(obj.writeValueAsString(i.getName()));
-        }else{
-            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        try{
+            int id = Integer.parseInt(splits[1]);
+            Ingredient i = dao.findById(id);
+            if(i == null){
+                res.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+            if(splits.length == 2){
+                out.println(obj.writeValueAsString(i));
+            }else if(splits[2].equals("name")){
+                out.println(obj.writeValueAsString(i.getName()));
+            }else{
+                res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            }
+        }catch(NumberFormatException e){
+            if(splits[1].equals("setup")){
+                dao.setup();
+            }
         }
         return;
     }
@@ -88,11 +94,13 @@ public class IngredientRestAPI extends HttpServlet{
             return;
         }
 
-        int id = Integer.parseInt(splits[2]);
-        if(dao.findById(id) == null){
+        int id = Integer.parseInt(splits[1]);
+        Ingredient i = dao.findById(id);
+        if(i == null){
             res.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
+        out.println(obj.writeValueAsString(i));
         dao.remove(id);
         
     }
