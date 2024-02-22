@@ -74,4 +74,32 @@ public class PizzaRestAPI extends HttpServlet{
         dao.save(i);
         out.println(data);
     }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        res.setContentType("application/json;charset=UTF-8");
+        ObjectMapper obj = new ObjectMapper();
+        PrintWriter out = res.getWriter();
+        String info = req.getPathInfo();
+
+        if(info == null || info.equals("/")){
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+
+        String[] splits = info.split("/");
+        if(splits.length!=2){
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+
+        int id = Integer.parseInt(splits[1]);
+        Pizza p = dao.findById(id);
+        if(p == null){
+            res.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+        dao.remove(id);
+        res.sendError(HttpServletResponse.SC_NO_CONTENT);
+    }
 }
