@@ -26,7 +26,7 @@ public class IngredientDAODatabase implements DAOIngredient{
             ResultSet rs =  stmt.executeQuery(request);
 
             while(rs.next()){
-                res.add(new Ingredient(rs.getInt("id"), rs.getString("name"), rs.getDouble("prix")));
+                res.add(new Ingredient(rs.getInt("id"), rs.getString("nom"), rs.getDouble("prix")));
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -60,12 +60,12 @@ public class IngredientDAODatabase implements DAOIngredient{
     }
 
     @Override
-    public void save(int id, String name, double prix) {
+    public void save(int id, String nom, double prix) {
         try{
             String request = "INSERT INTO ingredients VALUES(?, ?, ?)";
             PreparedStatement ps = this.con.prepareStatement(request);
             ps.setInt(1, id);
-            ps.setString(2, name);
+            ps.setString(2, nom);
             ps.setDouble(3, prix);
             ps.executeUpdate();
 

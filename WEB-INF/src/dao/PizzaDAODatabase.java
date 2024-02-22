@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -50,15 +51,15 @@ public class PizzaDAODatabase implements DAOPizza {
                 int idPizza = rs.getInt("id");
                 String nom = rs.getString("nom");
                 String pate = rs.getString("pate");
-
-                p = new Pizza(idPizza, nom, pate, null);
-
+                
                 ps = con.prepareStatement(query1);
                 ps.setInt(1, id);
                 ResultSet rs1 = ps.executeQuery();
+                HashSet<Ingredient> ingredients = new HashSet<>();
                 while (rs1.next()) {
-                    p.getIngredients().add(daoIngredients.findById(rs1.getInt("id")));
+                    ingredients.add(daoIngredients.findById(rs1.getInt("idingre")));
                 }
+                p = new Pizza(idPizza, nom, pate, ingredients);
             }
         } catch (Exception e) {
             e.printStackTrace();
