@@ -5,18 +5,24 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Pizza {
+    private int id;
     private String nom;
     private String pate;
     private double prixBase;
     private Set<Ingredient> ingredients;
 
     public Pizza(@JsonProperty("id") int id, @JsonProperty("nom") String nom, @JsonProperty("pate") String pate, @JsonProperty("ingredients") Set<Ingredient> ingredients){
+        this.id = id;
         this.nom = nom;
         this.pate = pate;
         this.ingredients = ingredients;
         for (Ingredient i : ingredients){
             this.prixBase += i.getPrix();
         }
+    }
+
+    public int getId(){
+        return this.id;
     }
 
     public String getNom() {

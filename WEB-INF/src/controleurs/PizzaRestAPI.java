@@ -1,6 +1,8 @@
 package controleurs;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Collection;
 
@@ -16,7 +18,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/ingredients/*")
+@WebServlet("/pizzas/*")
 public class PizzaRestAPI extends HttpServlet{
     DAOPizza dao = new PizzaDAODatabase();
 
@@ -39,15 +41,15 @@ public class PizzaRestAPI extends HttpServlet{
 
         try{
             int id = Integer.parseInt(splits[1]);
-            Pizza i = dao.findById(id);
-            if(i == null){
+            Pizza p = dao.findById(id);
+            if(p == null){
                 res.sendError(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }
             if(splits.length == 2){
-                out.println(obj.writeValueAsString(i));
+                out.println(obj.writeValueAsString(p));
             }else if(splits[2].equals("name")){
-                out.println(obj.writeValueAsString(i.getNom()));
+                out.println(obj.writeValueAsString(p.getNom()));
             }else{
                 res.sendError(HttpServletResponse.SC_BAD_REQUEST);
             }
@@ -55,5 +57,21 @@ public class PizzaRestAPI extends HttpServlet{
             out.println(e.getMessage());
         }
         return;
+    }
+
+    @Override
+    public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        res.setContentType("application/json;charset=UTF-8");
+        ObjectMapper obj = new ObjectMapper();
+        PrintWriter out = res.getWriter();
+        String data = new BufferedReader(new InputStreamReader(req.getInputStream())).readLine();
+        
+        Pizza i = obj.readValue(data, Pizza.class);
+        if(dao.findById(i.getId()) != null){
+            res.sendError(HttpServletResponse.SC_CONFLICT);
+            return;
+        }
+        dao.save(i);
+        out.println(data);
     }
 }
