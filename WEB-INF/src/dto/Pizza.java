@@ -35,7 +35,7 @@ public class Pizza {
         for (Ingredient i : ingredients){
             res += i.getPrix();
         }
-        return res;
+        return res+5;
     }
 
     public Set<Ingredient> getIngredients() {

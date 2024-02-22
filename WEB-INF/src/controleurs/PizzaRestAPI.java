@@ -54,6 +54,8 @@ public class PizzaRestAPI extends MyServlet{
                 out.println(obj.writeValueAsString(p));
             }else if(splits[2].equals("name")){
                 out.println(obj.writeValueAsString(p.getNom()));
+            }else if(splits[2].equals("prixfinal")){
+                out.println(obj.writeValueAsString(p.getPrixBase()));
             }else{
                 res.sendError(HttpServletResponse.SC_BAD_REQUEST);
             }
