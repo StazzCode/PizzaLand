@@ -21,17 +21,10 @@ public class PizzaDAODatabase implements DAOPizza {
     public List<Pizza> findAll() {
         ArrayList<Pizza> res = new ArrayList<>();
         try {
-            String query = "SELECT * FROM pizzas;";
+            String query = "SELECT * FROM associationPizzaIngrédients";
             PreparedStatement ps = con.prepareStatement(query);
             ResultSet rs  = ps.executeQuery();
 
-            while(rs.next()){
-                String nom = rs.getString("nom");
-                String pate = rs.getString("pate");
-                Set<Ingredient> ingredients = (Set<Ingredient>) rs.getObject("ingredients");
-
-                res.add(new Pizza(nom, pate, ingredients));
-            }
         } catch(Exception e){
             e.printStackTrace();
         }
