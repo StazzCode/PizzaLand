@@ -53,9 +53,7 @@ public class IngredientRestAPI extends HttpServlet{
                 res.sendError(HttpServletResponse.SC_BAD_REQUEST);
             }
         }catch(NumberFormatException e){
-            if(splits[1].equals("setup")){
-                dao.setup();
-            }
+            out.println(e.getMessage());
         }
         return;
     }

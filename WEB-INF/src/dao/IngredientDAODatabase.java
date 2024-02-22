@@ -88,19 +88,4 @@ public class IngredientDAODatabase implements DAOIngredient{
             e.printStackTrace();
         }
     }
-
-    @Override
-    public void setup() {
-        try{
-            String request = "DROP TABLE IF EXISTS ingredients";
-            Statement stmt = this.con.createStatement();
-            stmt.executeUpdate(request);
-            
-            request = "CREATE TABLE ingredients(id int, name text, prix float)";
-            stmt.executeUpdate(request);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-    
 }
