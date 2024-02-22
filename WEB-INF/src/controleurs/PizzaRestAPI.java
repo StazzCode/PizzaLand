@@ -143,7 +143,7 @@ public class PizzaRestAPI extends MyServlet{
             if (updatedPizza.getPate() != null) {
                 p.setPate(updatedPizza.getPate());
             }
-    
+            System.out.println(obj.writeValueAsString(p));
             dao.update(p);
             out.println(obj.writeValueAsString(p));
         } catch (Exception e) {
