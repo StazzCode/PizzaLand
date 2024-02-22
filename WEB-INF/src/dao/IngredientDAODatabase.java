@@ -44,7 +44,7 @@ public class IngredientDAODatabase implements DAOIngredient{
             ResultSet rs = ps.executeQuery();
   
             if (rs.next()) {
-                res = new Ingredient(rs.getInt("id"), rs.getString("name"), rs.getDouble("prix"));
+                res = new Ingredient(rs.getInt("id"), rs.getString("nom"), rs.getDouble("prix"));
             }
             
             ps.close();
@@ -56,7 +56,7 @@ public class IngredientDAODatabase implements DAOIngredient{
 
     @Override
     public void save(Ingredient i) {
-        this.save(i.getId(), i.getName(), i.getPrix());
+        this.save(i.getId(), i.getNom(), i.getPrix());
     }
 
     @Override
