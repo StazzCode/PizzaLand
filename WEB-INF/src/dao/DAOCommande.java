@@ -17,4 +17,6 @@ public interface DAOCommande {
     public void save (int id, String nom, Date date, ArrayList<Pizza> pizzas);
 
     public double findTotal(int id);
+
+    public void update(Commande c);
 }

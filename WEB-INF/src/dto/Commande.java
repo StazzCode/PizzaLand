@@ -1,7 +1,6 @@
 package dto;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -37,6 +36,18 @@ public class Commande {
 
     public ArrayList<Pizza> getPizzas() {
         return pizzas;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setPizzas(ArrayList<Pizza> pizzas) {
+        this.pizzas = pizzas;
     }
 
     public double getPrixBase() {

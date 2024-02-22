@@ -4,13 +4,10 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import dto.Commande;
-import dto.Ingredient;
 import dto.Pizza;
 
 public class CommandeDAODatabase implements DAOCommande{
@@ -101,6 +98,11 @@ public class CommandeDAODatabase implements DAOCommande{
     @Override
     public double findTotal(int id) {
         return findById(id).getPrixBase();
+    }
+
+    @Override
+    public void update(Commande c) {
+        
     }
     
 }
