@@ -40,4 +40,17 @@ public class Pizza {
     public Set<Ingredient> getIngredients() {
         return ingredients;
     }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setPate(String pate) {
+        this.pate = pate;
+    }
+
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
 }

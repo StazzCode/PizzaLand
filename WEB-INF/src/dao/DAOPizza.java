@@ -16,4 +16,6 @@ public interface DAOPizza {
     public void save(int id, String nom, String pate, Set<Ingredient> ingredients);
 
     public void remove(int id);
+
+    public void update(Pizza p);
 }

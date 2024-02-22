@@ -86,6 +86,7 @@ public class PizzaDAODatabase implements DAOPizza {
             for (Ingredient i : ingredients){
                 ps.setInt(1, id);
                 ps.setInt(2, i.getId());
+                ps.executeUpdate();
             }
 
             ps.close();
@@ -104,6 +105,29 @@ public class PizzaDAODatabase implements DAOPizza {
 
             ps.close();
         }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void update(Pizza p) {
+        try {
+            String request = "UPDATE pizzas SET nom = ? AND pate = ? WHERE id = ?";
+            String request1 = "UPDATE associationpizzaingrédients SET idingre = ? WHERE idpizza = ?";
+            PreparedStatement ps = con.prepareStatement(request);
+            ps.setString(1, p.getNom());
+            ps.setString(2, p.getPate());
+            ps.executeUpdate();
+
+            ps = con.prepareStatement(request1);
+            for (Ingredient i : p.getIngredients()){
+                ps.setInt(1, i.getId());
+                ps.setInt(2, p.getId());
+                ps.executeUpdate();
+            }
+
+            ps.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
