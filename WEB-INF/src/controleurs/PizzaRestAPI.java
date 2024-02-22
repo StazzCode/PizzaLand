@@ -8,7 +8,9 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import dao.DAOIngredient;
 import dao.DAOPizza;
+import dao.IngredientDAODatabase;
 import dao.PizzaDAODatabase;
 import dto.Ingredient;
 import dto.Pizza;
@@ -67,14 +69,37 @@ public class PizzaRestAPI extends MyServlet{
         ObjectMapper obj = new ObjectMapper();
         PrintWriter out = res.getWriter();
         String data = new BufferedReader(new InputStreamReader(req.getInputStream())).readLine();
-        
-        Pizza i = obj.readValue(data, Pizza.class);
-        if(dao.findById(i.getId()) != null){
-            res.sendError(HttpServletResponse.SC_CONFLICT);
+        String info = req.getPathInfo();
+        if(info == null || info.equals("/")){
+            Pizza i = obj.readValue(data, Pizza.class);
+            if(dao.findById(i.getId()) != null){
+                res.sendError(HttpServletResponse.SC_CONFLICT);
+                return;
+            }
+            dao.save(i);
+            out.println(data);
             return;
         }
-        dao.save(i);
-        out.println(data);
+        String[] splits = info.split("/");
+        if(splits.length != 2){
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+        try{
+            int id = Integer.parseInt(splits[1]);
+            Pizza p = dao.findById(id);
+            Ingredient i = obj.readValue(data, Ingredient.class);
+            if(p == null || i == null){
+                res.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+            dao.addIngredients(p, i);
+            out.println(obj.writeValueAsString(p));
+
+        }catch(Exception e){
+            out.println(e.getMessage());
+        }
+        return;
     }
 
     @Override
@@ -143,7 +168,6 @@ public class PizzaRestAPI extends MyServlet{
             if (updatedPizza.getPate() != null) {
                 p.setPate(updatedPizza.getPate());
             }
-            System.out.println(obj.writeValueAsString(p));
             dao.update(p);
             out.println(obj.writeValueAsString(p));
         } catch (Exception e) {

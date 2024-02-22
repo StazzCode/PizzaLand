@@ -18,4 +18,6 @@ public interface DAOPizza {
     public void remove(int id);
 
     public void update(Pizza p);
+
+    public void addIngredients(Pizza p, Ingredient i);
 }

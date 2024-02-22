@@ -115,4 +115,10 @@ public class PizzaDAODatabase implements DAOPizza {
         this.remove(p.getId());
         this.save(p);
     }
+
+    @Override
+    public void addIngredients(Pizza p, Ingredient i) {
+        p.getIngredients().add(i);
+        update(p);
+    }
 }
