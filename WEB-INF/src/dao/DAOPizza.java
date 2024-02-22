@@ -13,7 +13,7 @@ public interface DAOPizza {
 
     public void save(Pizza i);
 
-    public void save(String nom, String pate, double prixBase, Set<Ingredient> ingredients);
+    public void save(int id, String nom, String pate, Set<Ingredient> ingredients);
 
     public void remove(int id);
 }
