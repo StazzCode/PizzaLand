@@ -9,7 +9,6 @@ public class Pizza {
     private int id;
     private String nom;
     private String pate;
-    private double prixBase;
     private Set<Ingredient> ingredients;
 
     public Pizza(@JsonProperty("id") int id, @JsonProperty("nom") String nom, @JsonProperty("pate") String pate, @JsonProperty("ingredients") Set<Ingredient> ingredients){
@@ -17,9 +16,6 @@ public class Pizza {
         this.nom = nom;
         this.pate = pate;
         this.ingredients = ingredients;
-        for (Ingredient i : ingredients){
-            this.prixBase += i.getPrix();
-        }
     }
 
     public int getId(){
@@ -35,7 +31,11 @@ public class Pizza {
     }
 
     public double getPrixBase() {
-        return prixBase;
+        double res = 0;
+        for (Ingredient i : ingredients){
+            res += i.getPrix();
+        }
+        return res;
     }
 
     public Set<Ingredient> getIngredients() {

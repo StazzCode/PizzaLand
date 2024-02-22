@@ -133,7 +133,7 @@ public class PizzaRestAPI extends MyServlet{
         try {
             String data = new BufferedReader(new InputStreamReader(req.getInputStream())).readLine();
             Pizza updatedPizza = obj.readValue(data, Pizza.class);
-    
+
             if (updatedPizza.getNom() != null) {
                 p.setNom(updatedPizza.getNom());
             }
@@ -147,6 +147,7 @@ public class PizzaRestAPI extends MyServlet{
             dao.update(p);
             out.println(obj.writeValueAsString(p));
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             res.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
     }

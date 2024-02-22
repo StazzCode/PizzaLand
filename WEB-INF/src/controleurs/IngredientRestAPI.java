@@ -47,7 +47,7 @@ public class IngredientRestAPI extends HttpServlet{
             }
             if(splits.length == 2){
                 out.println(obj.writeValueAsString(i));
-            }else if(splits[2].equals("nom")){
+            }else if(splits[2].equals("name")){
                 out.println(obj.writeValueAsString(i.getNom()));
             }else{
                 res.sendError(HttpServletResponse.SC_BAD_REQUEST);

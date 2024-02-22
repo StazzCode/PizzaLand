@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS ingredients;
+DROP TABLE IF EXISTS ingredients CASCADE;
 
 CREATE TABLE ingredients(id int Primary Key, nom text, prix float);
 

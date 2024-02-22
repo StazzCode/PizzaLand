@@ -1,5 +1,4 @@
-DROP TABLE IF EXISTS commandes;
-DROP TABLE IF EXISTS associationCommandePizzas; 
+DROP TABLE IF EXISTS commandes, associationCommandePizzas CASCADE;
 
 CREATE TABLE commandes(
     id INT PRIMARY KEY,
@@ -16,10 +15,11 @@ Create table associationCommandePizzas (
        Constraint pk_associationCommandePizzas Primary Key (idCommande,idPizza),
 
        Constraint fk_idPizza Foreign Key (idPizza)
-       		  References pizzas(id),
+       		  References pizzas(id)
+              ON DELETE CASCADE,
 
        Constraint fk_idCommande Foreign Key (idCommande)
-       		  References commandes(id)
+       		  References commandes(id) ON DELETE CASCADE
 );
 
 

@@ -1,5 +1,4 @@
-Drop table if exists pizzas;
-Drop table if exists associationPizzaIngrédients; 
+Drop table if exists pizzas, associationPizzaIngrédients CASCADE;
 
 Create table pizzas (
        id int Primary Key,
@@ -14,10 +13,10 @@ Create table associationPizzaIngrédients (
        Constraint pk_associationPizzaIngrédients Primary Key (idPizza,idIngre),
 
        Constraint fk_idPizza Foreign Key (idPizza)
-       		  References pizzas(id),
+       		  References pizzas(id) ON DELETE CASCADE,
 
        Constraint fk_idIngre Foreign Key (idIngre)
-       		  References ingredients(id)
+       		  References ingredients(id) ON DELETE CASCADE
 );
 
 
