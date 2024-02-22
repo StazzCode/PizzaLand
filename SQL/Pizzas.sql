@@ -18,4 +18,10 @@ Create table associationPizzaIngrédients (
 
        Constraint fk_idIngre Foreign Key (idIngre)
        		  References ingredients(id)
-)
+);
+
+
+Insert into pizzas values (1, 'pizza jambon fromage', 'fine'),
+       	    	   	  (2, 'pizza fromage', 'fine');
+
+Insert into associationpizzaingrédients values (1,1), (1,3), (2,1);
