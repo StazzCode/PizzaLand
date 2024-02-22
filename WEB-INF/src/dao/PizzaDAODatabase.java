@@ -14,7 +14,7 @@ import dto.Pizza;
 public class PizzaDAODatabase implements DAOPizza {
     Connection con;
 
-    public PizzaDAODatabase(){
+    public PizzaDAODatabase() {
         this.con = DS.getConnection();
     }
 
