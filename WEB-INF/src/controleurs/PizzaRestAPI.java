@@ -140,6 +140,9 @@ public class PizzaRestAPI extends MyServlet{
             if (updatedPizza.getIngredients() != null) {
                 p.setIngredients(updatedPizza.getIngredients());
             }
+            if (updatedPizza.getPate() != null) {
+                p.setPates(updatedPizza.getPate());
+            }
     
             dao.update(p);
             out.println(obj.writeValueAsString(p));
