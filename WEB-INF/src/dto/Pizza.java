@@ -10,7 +10,7 @@ public class Pizza {
     private double prixBase;
     private Set<Ingredient> ingredients;
 
-    public Pizza(@JsonProperty("nom") String nom, @JsonProperty("pate") String pate, @JsonProperty("ingredients") Set<Ingredient> ingredients){
+    public Pizza(@JsonProperty("id") int id, @JsonProperty("nom") String nom, @JsonProperty("pate") String pate, @JsonProperty("ingredients") Set<Ingredient> ingredients){
         this.nom = nom;
         this.pate = pate;
         this.ingredients = ingredients;
