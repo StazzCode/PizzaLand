@@ -19,4 +19,10 @@ public interface DAOCommande {
     public double findTotal(int id);
 
     public void update(Commande c);
+
+    public boolean isValid(Commande c);
+
+    public void remove(int id);
+
+    public void deletePizza(Commande c, Pizza p);
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dto.Commande;
+import dto.Ingredient;
 import dto.Pizza;
 
 public class CommandeDAODatabase implements DAOCommande{
@@ -106,7 +107,8 @@ public class CommandeDAODatabase implements DAOCommande{
         this.save(c);
     }
 
-    private void remove(int id) {
+    @Override
+    public void remove(int id) {
         try{
             String request = "DELETE FROM commandes WHERE id = ?";
             PreparedStatement ps = this.con.prepareStatement(request);
@@ -117,6 +119,28 @@ public class CommandeDAODatabase implements DAOCommande{
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean isValid(Commande c) {
+        try {
+            String request = "SELECT * FROM pizzas WHERE id = ?";
+            PreparedStatement ps = this.con.prepareStatement(request);
+
+            for(Pizza p : c.getPizzas()){
+                ps.setInt(1, p.getId());
+                ps.executeQuery();
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void deletePizza(Commande c, Pizza p) {
+        c.getPizzas().remove(p);
+        update(c);
     }
     
 }

@@ -10,7 +10,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.CommandeDAODatabase;
 import dao.DAOCommande;
+import dao.DAOIngredient;
+import dao.DAOPizza;
+import dao.IngredientDAODatabase;
+import dao.PizzaDAODatabase;
 import dto.Commande;
+import dto.Ingredient;
+import dto.Pizza;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -68,6 +74,10 @@ public class CommandeRestAPI extends MyServlet{
         String data = bf.readLine();
         
         Commande i = obj.readValue(data, Commande.class);
+        if(!dao.isValid(i)){
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
         if(dao.findById(i.getId()) != null){
             res.sendError(HttpServletResponse.SC_CONFLICT);
             return;
@@ -121,5 +131,43 @@ public class CommandeRestAPI extends MyServlet{
         } catch (Exception e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        res.setContentType("application/json;charset=UTF-8");
+        String info = req.getPathInfo();
+
+        if(info == null || info.equals("/")){
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+
+        String[] splits = info.split("/");
+        if(splits.length>3){
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+
+        int id = Integer.parseInt(splits[1]);
+        Commande c = dao.findById(id);
+        if(c == null){
+            res.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+        
+        if (splits.length==3){
+            DAOPizza daoPizza = new PizzaDAODatabase();
+            int idPizza = Integer.parseInt(splits[2]);
+            Pizza p = daoPizza.findById(idPizza);
+            if (!c.getPizzas().contains(p)){
+                res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+            dao.deletePizza(c, p);
+        } else {
+            dao.remove(id);
+        }
+        res.sendError(HttpServletResponse.SC_NO_CONTENT);
     }
 }
