@@ -135,7 +135,7 @@ public class PizzaRestAPI extends MyServlet{
             int idIngredient = Integer.parseInt(splits[2]);
             Ingredient ing = daoIngredients.findById(idIngredient);
             if (!p.getIngredients().contains(ing)){
-                res.sendError(HttpServletResponse.SC_NOT_FOUND);
+                res.sendError(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }
             dao.deleteIngredient(p, ing);
