@@ -51,6 +51,8 @@ public class CommandeRestAPI extends MyServlet{
                 out.println(obj.writeValueAsString(c));
             }else if(splits[2].equals("name")){
                 out.println(obj.writeValueAsString(c.getNom()));
+            }else if(splits[2].equals("prixfinal")){
+                out.println(obj.writeValueAsString(c.getPrixBase()));
             }else{
                 res.sendError(HttpServletResponse.SC_BAD_REQUEST);
             }

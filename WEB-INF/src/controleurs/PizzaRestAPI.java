@@ -12,6 +12,7 @@ import dao.DAOIngredient;
 import dao.DAOPizza;
 import dao.IngredientDAODatabase;
 import dao.PizzaDAODatabase;
+import dto.Ingredient;
 import dto.Pizza;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
