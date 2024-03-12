@@ -12,7 +12,7 @@ public class Commande {
     private ArrayList<Pizza> pizzas;
     private double prixBase;
 
-    public Commande(@JsonProperty("id") int id, @JsonProperty("nom") String nom, @JsonProperty("date") Date date, @JsonProperty("pizzas") ArrayList<Pizza> pizzas, @JsonProperty("prixBase") double prixBase){
+    public Commande(@JsonProperty("id") int id, @JsonProperty("nom") String nom, @JsonProperty("date") Date date, @JsonProperty("pizzas") ArrayList<Pizza> pizzas){
         this.id = id;
         this.nom = nom;
         this.date = date;

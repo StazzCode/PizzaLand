@@ -1,0 +1,40 @@
+meta {
+  name: POST Ajouter une commande
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/pizzaland-cancel-mirey/commandes
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id" : "3",
+    "nom" : "Paul Cancel",
+    "date" : 2206223600000,
+    "pizzas": [
+      {
+        "id": 1,
+        "nom": "pizza jambon fromage",
+        "pate": "fine",
+        "ingredients": [
+          {
+            "id": 1,
+            "nom": "fromage",
+            "prix": 1.99
+          },
+          {
+            "id": 3,
+            "nom": "jambon",
+            "prix": 2.4
+          }
+        ],
+        "prixBase": 4.39
+      }
+    ],
+    "prixBase": 6.38
+  }
+}

@@ -41,7 +41,7 @@ public class CommandeDAODatabase implements DAOCommande{
         Commande c = null;
         try {
             String query = "Select * from commandes Where id = ?";
-            String query1 = "Select idpizza from associationCommandePizzas Where idpizza = ?";
+            String query1 = "Select idpizza from associationcommandepizzas Where idcommande = ?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -56,9 +56,9 @@ public class CommandeDAODatabase implements DAOCommande{
                 ResultSet rs1 = ps.executeQuery();
                 ArrayList<Pizza> pizzas = new ArrayList<>();
                 while (rs1.next()) {
-                    pizzas.add(daoPizza.findById(rs1.getInt("id")));
+                    pizzas.add(daoPizza.findById(rs1.getInt("idpizza")));
                 }
-                c = new Commande(id, nom, date, pizzas, idCommande);
+                c = new Commande(idCommande, nom, date, pizzas);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,7 +102,21 @@ public class CommandeDAODatabase implements DAOCommande{
 
     @Override
     public void update(Commande c) {
-        
+        this.remove(c.getId());
+        this.save(c);
+    }
+
+    private void remove(int id) {
+        try{
+            String request = "DELETE FROM commandes WHERE id = ?";
+            PreparedStatement ps = this.con.prepareStatement(request);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+
+            ps.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
     
 }
