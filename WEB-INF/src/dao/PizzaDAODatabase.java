@@ -121,4 +121,10 @@ public class PizzaDAODatabase implements DAOPizza {
         p.getIngredients().add(i);
         update(p);
     }
+
+    @Override
+    public void deleteIngredient(Pizza p, Ingredient i){
+        p.getIngredients().remove(i);
+        update(p);
+    }
 }

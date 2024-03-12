@@ -8,7 +8,9 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import dao.DAOIngredient;
 import dao.DAOPizza;
+import dao.IngredientDAODatabase;
 import dao.PizzaDAODatabase;
 import dto.Ingredient;
 import dto.Pizza;
@@ -112,7 +114,7 @@ public class PizzaRestAPI extends MyServlet{
         }
 
         String[] splits = info.split("/");
-        if(splits.length!=2){
+        if(splits.length>3){
             res.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
@@ -123,7 +125,19 @@ public class PizzaRestAPI extends MyServlet{
             res.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
-        dao.remove(id);
+        
+        if (splits.length==3){
+            DAOIngredient daoIngredients = new IngredientDAODatabase();
+            int idIngredient = Integer.parseInt(splits[2]);
+            Ingredient ing = daoIngredients.findById(idIngredient);
+            if (!p.getIngredients().contains(ing)){
+                res.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+            dao.deleteIngredient(p, ing);
+        } else {
+            dao.remove(id);
+        }
         res.sendError(HttpServletResponse.SC_NO_CONTENT);
     }
 
