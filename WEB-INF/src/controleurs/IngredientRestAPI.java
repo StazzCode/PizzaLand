@@ -63,7 +63,8 @@ public class IngredientRestAPI extends HttpServlet{
         res.setContentType("application/json;charset=UTF-8");
         ObjectMapper obj = new ObjectMapper();
         PrintWriter out = res.getWriter();
-        String data = new BufferedReader(new InputStreamReader(req.getInputStream())).readLine();
+        BufferedReader bf = new BufferedReader(new InputStreamReader(req.getInputStream()));
+        String data = bf.readLine();
         
         Ingredient i = obj.readValue(data, Ingredient.class);
         if(dao.findById(i.getId()) != null){
@@ -77,8 +78,6 @@ public class IngredientRestAPI extends HttpServlet{
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         res.setContentType("application/json;charset=UTF-8");
-        ObjectMapper obj = new ObjectMapper();
-        PrintWriter out = res.getWriter();
         String info = req.getPathInfo();
 
         if(info == null || info.equals("/")){

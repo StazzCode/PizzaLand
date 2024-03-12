@@ -10,16 +10,12 @@ public class Commande {
     private String nom;
     private Date date;
     private ArrayList<Pizza> pizzas;
-    private double prixBase;
 
     public Commande(@JsonProperty("id") int id, @JsonProperty("nom") String nom, @JsonProperty("date") Date date, @JsonProperty("pizzas") ArrayList<Pizza> pizzas){
         this.id = id;
         this.nom = nom;
         this.date = date;
         this.pizzas = pizzas;
-        for (Pizza p : pizzas){
-            this.prixBase += p.getPrixBase();
-        }
     }
 
     public int getId() {
@@ -51,6 +47,10 @@ public class Commande {
     }
 
     public double getPrixBase() {
+        double prixBase = 0;
+        for (Pizza p : pizzas){
+            prixBase += p.getPrixBase();
+        }
         return prixBase;
     }
 }

@@ -10,10 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.CommandeDAODatabase;
 import dao.DAOCommande;
-import dao.DAOPizza;
-import dao.PizzaDAODatabase;
 import dto.Commande;
-import dto.Pizza;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -67,7 +64,8 @@ public class CommandeRestAPI extends MyServlet{
         res.setContentType("application/json;charset=UTF-8");
         ObjectMapper obj = new ObjectMapper();
         PrintWriter out = res.getWriter();
-        String data = new BufferedReader(new InputStreamReader(req.getInputStream())).readLine();
+        BufferedReader bf = new BufferedReader(new InputStreamReader(req.getInputStream()));
+        String data = bf.readLine();
         
         Commande i = obj.readValue(data, Commande.class);
         if(dao.findById(i.getId()) != null){
@@ -104,7 +102,8 @@ public class CommandeRestAPI extends MyServlet{
         }
     
         try {
-            String data = new BufferedReader(new InputStreamReader(req.getInputStream())).readLine();
+            BufferedReader bf = new BufferedReader(new InputStreamReader(req.getInputStream()));
+            String data = bf.readLine();
             Commande updatedCommande = obj.readValue(data, Commande.class);
     
             if (updatedCommande.getNom() != null) {

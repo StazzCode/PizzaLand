@@ -8,9 +8,7 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import dao.DAOIngredient;
 import dao.DAOPizza;
-import dao.IngredientDAODatabase;
 import dao.PizzaDAODatabase;
 import dto.Ingredient;
 import dto.Pizza;
@@ -67,7 +65,8 @@ public class PizzaRestAPI extends MyServlet{
         res.setContentType("application/json;charset=UTF-8");
         ObjectMapper obj = new ObjectMapper();
         PrintWriter out = res.getWriter();
-        String data = new BufferedReader(new InputStreamReader(req.getInputStream())).readLine();
+        BufferedReader bf = new BufferedReader(new InputStreamReader(req.getInputStream()));
+        String data = bf.readLine();
         String info = req.getPathInfo();
         if(info == null || info.equals("/")){
             Pizza i = obj.readValue(data, Pizza.class);
@@ -98,14 +97,13 @@ public class PizzaRestAPI extends MyServlet{
         }catch(Exception e){
             out.println(e.getMessage());
         }
+        bf.close();
         return;
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         res.setContentType("application/json;charset=UTF-8");
-        ObjectMapper obj = new ObjectMapper();
-        PrintWriter out = res.getWriter();
         String info = req.getPathInfo();
 
         if(info == null || info.equals("/")){
@@ -155,7 +153,8 @@ public class PizzaRestAPI extends MyServlet{
         }
     
         try {
-            String data = new BufferedReader(new InputStreamReader(req.getInputStream())).readLine();
+            BufferedReader bf = new BufferedReader(new InputStreamReader(req.getInputStream()));
+            String data = bf.readLine();
             Pizza updatedPizza = obj.readValue(data, Pizza.class);
 
             if (updatedPizza.getNom() != null) {
@@ -169,6 +168,7 @@ public class PizzaRestAPI extends MyServlet{
             }
             dao.update(p);
             out.println(obj.writeValueAsString(p));
+            bf.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             res.sendError(HttpServletResponse.SC_BAD_REQUEST);

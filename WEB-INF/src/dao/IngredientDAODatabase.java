@@ -11,8 +11,6 @@ import dto.Ingredient;
 
 public class IngredientDAODatabase implements DAOIngredient{
     private Connection con;
-    private static int cpt = 0;
-
     public IngredientDAODatabase() {
         this.con = DS.getConnection();
     }
