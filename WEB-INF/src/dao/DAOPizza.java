@@ -22,4 +22,6 @@ public interface DAOPizza {
     public void addIngredients(Pizza p, Ingredient i);
 
     public void deleteIngredient(Pizza p, Ingredient i);
+
+    public boolean isValid(Pizza i);
 }

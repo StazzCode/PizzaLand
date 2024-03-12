@@ -72,6 +72,10 @@ public class PizzaRestAPI extends MyServlet{
         String info = req.getPathInfo();
         if(info == null || info.equals("/")){
             Pizza i = obj.readValue(data, Pizza.class);
+            if(!dao.isValid(i)){
+                res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
             if(dao.findById(i.getId()) != null){
                 res.sendError(HttpServletResponse.SC_CONFLICT);
                 return;

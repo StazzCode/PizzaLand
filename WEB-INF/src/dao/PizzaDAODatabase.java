@@ -127,4 +127,20 @@ public class PizzaDAODatabase implements DAOPizza {
         p.getIngredients().remove(i);
         update(p);
     }
+
+    @Override
+    public boolean isValid(Pizza p){
+        try {
+            String request = "SELECT * FROM ingredients WHERE id = ?";
+            PreparedStatement ps = this.con.prepareStatement(request);
+
+            for(Ingredient i : p.getIngredients()){
+                ps.setInt(1, i.getId());
+                ps.executeQuery();
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
 }
