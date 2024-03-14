@@ -1,0 +1,31 @@
+meta {
+  name: POST Ajouter une pizza à une commande
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:8080/pizzaland-cancel-mirey/commandes/2
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id" : "5",
+    "nom" : "Pizza Fromage Ananas",
+    "pate" : "epaisse",
+    "ingredients" : [
+      {
+        "id": 1,
+        "nom": "fromage",
+        "prix": 1.99
+      },
+      {
+        "id": 2,
+        "nom": "ananas",
+        "prix": 6.1
+      }
+    ]
+  }
+}

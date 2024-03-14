@@ -12,9 +12,9 @@ public interface DAOCommande {
 
     public Commande findById(int id);
 
-    public void save (Commande c);
+    public void save(Commande c);
 
-    public void save (int id, String nom, Date date, ArrayList<Pizza> pizzas);
+    public void save(int id, String nom, Date date, ArrayList<Pizza> pizzas);
 
     public double findTotal(int id);
 
@@ -25,4 +25,6 @@ public interface DAOCommande {
     public void remove(int id);
 
     public void deletePizza(Commande c, Pizza p);
+
+    public void addPizza(Commande c, Pizza p);
 }
