@@ -161,20 +161,20 @@ public class CommandeRestAPI extends MyServlet {
         String info = req.getPathInfo();
 
         if (info == null || info.equals("/")) {
-            // res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
 
         String[] splits = info.split("/");
         if (splits.length > 3) {
-            // res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
 
         int id = Integer.parseInt(splits[1]);
         Commande c = dao.findById(id);
         if (c == null) {
-            // res.sendError(HttpServletResponse.SC_NOT_FOUND);
+            res.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
@@ -183,13 +183,14 @@ public class CommandeRestAPI extends MyServlet {
             int idPizza = Integer.parseInt(splits[2]);
             Pizza p = daoPizza.findById(idPizza);
             if (!c.getPizzas().contains(p)) {
-                // res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                res.sendError(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }
             dao.deletePizza(c, p);
+            res.sendError(HttpServletResponse.SC_NO_CONTENT);
+            return;
         } else {
             dao.remove(id);
         }
-        // res.sendError(HttpServletResponse.SC_NO_CONTENT);
     }
 }

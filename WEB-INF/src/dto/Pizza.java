@@ -52,4 +52,46 @@ public class Pizza {
     public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        result = prime * result + ((nom == null) ? 0 : nom.hashCode());
+        result = prime * result + ((pate == null) ? 0 : pate.hashCode());
+        result = prime * result + ((ingredients == null) ? 0 : ingredients.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Pizza other = (Pizza) obj;
+        if (id != other.id)
+            return false;
+        if (nom == null) {
+            if (other.nom != null)
+                return false;
+        } else if (!nom.equals(other.nom))
+            return false;
+        if (pate == null) {
+            if (other.pate != null)
+                return false;
+        } else if (!pate.equals(other.pate))
+            return false;
+        if (ingredients == null) {
+            if (other.ingredients != null)
+                return false;
+        } else if (!ingredients.equals(other.ingredients))
+            return false;
+        return true;
+    }
+
+    
 }
