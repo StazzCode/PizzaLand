@@ -13,7 +13,6 @@ import dao.DAOCommande;
 import dao.DAOPizza;
 import dao.PizzaDAODatabase;
 import dto.Commande;
-import dto.Ingredient;
 import dto.Pizza;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -94,8 +93,13 @@ public class CommandeRestAPI extends MyServlet {
             int id = Integer.parseInt(splits[1]);
             Commande c = dao.findById(id);
             Pizza i = obj.readValue(data, Pizza.class);
+            DAOPizza daoPizza = new PizzaDAODatabase();
             if (c == null || i == null) {
                 res.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+            if (!daoPizza.isInDatabase(i)) {
+                res.sendError(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }
             dao.addPizza(c, i);

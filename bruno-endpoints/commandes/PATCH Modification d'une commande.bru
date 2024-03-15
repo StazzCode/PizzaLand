@@ -1,0 +1,17 @@
+meta {
+  name: PATCH Modification d'une commande
+  type: http
+  seq: 8
+}
+
+patch {
+  url: http://localhost:8080/pizzaland-cancel-mirey/commandes/3
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "nom":"Mickey"
+  }
+}

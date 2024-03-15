@@ -86,4 +86,21 @@ public class IngredientDAODatabase implements DAOIngredient{
             e.printStackTrace();
         }
     }
+
+    @Override
+    public boolean isInDatabase(Ingredient i){
+        boolean res = false;
+        try {
+            String request = "SELECT * FROM ingredients WHERE id = ?";
+            PreparedStatement ps = this.con.prepareStatement(request);
+            ps.setInt(1, i.getId());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                res = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
 }

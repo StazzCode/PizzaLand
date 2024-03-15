@@ -24,4 +24,6 @@ public interface DAOPizza {
     public void deleteIngredient(Pizza p, Ingredient i);
 
     public boolean isValid(Pizza i);
+
+    public boolean isInDatabase(Pizza i);
 }

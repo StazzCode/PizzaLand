@@ -93,8 +93,13 @@ public class PizzaRestAPI extends MyServlet{
             int id = Integer.parseInt(splits[1]);
             Pizza p = dao.findById(id);
             Ingredient i = obj.readValue(data, Ingredient.class);
+            DAOIngredient daoIngr = new IngredientDAODatabase();
             if(p == null || i == null){
                 res.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+            if (!daoIngr.isInDatabase(i)) {
+                res.sendError(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }
             dao.addIngredients(p, i);

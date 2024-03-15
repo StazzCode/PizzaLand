@@ -5,27 +5,27 @@ meta {
 }
 
 post {
-  url: http://localhost:8080/pizzaland-cancel-mirey/commandes/2
+  url: http://localhost:8080/pizzaland-cancel-mirey/commandes/3
   body: json
   auth: none
 }
 
 body:json {
   {
-    "id" : "5",
-    "nom" : "Pizza Fromage Ananas",
-    "pate" : "epaisse",
-    "ingredients" : [
-      {
-        "id": 1,
-        "nom": "fromage",
-        "prix": 1.99
-      },
-      {
-        "id": 2,
-        "nom": "ananas",
-        "prix": 6.1
-      }
-    ]
-  }
+      "id": 1,
+      "nom": "pizza jambon fromage",
+      "pate": "fine",
+      "ingredients": [
+        {
+          "id": 1,
+          "nom": "fromage",
+          "prix": 1.99
+        },
+        {
+          "id": 3,
+          "nom": "jambon",
+          "prix": 2.4
+        }
+      ]
+    }
 }
