@@ -114,17 +114,29 @@ lardons
 
 ### Ajouter un ingrédient : 
 
-> POST /pizzaland-cancel-mirey/ingredients
+> POST /pizzaland-cancel-mirey/pizzas
 > {
->   "id": "7",
->   "nom": "chevre",
->   "prix": "69.69"
+>   "id" : "5",
+>  "nom" : "Pizza Fromage Ananas",
+>   "pate" : "epaisse",
+>   "ingredients" : [
+>     {
+>       "id": 1,
+>       "nom": "fromage",
+>       "prix": 1.99
+>     },
+>     {
+>       "id": 2,
+>       "nom": "ananas",
+>       "prix": 6.1
+>     }
+>   ]
 > }
 
 #### Requête vers le serveur
 
 ```json
-POST /pizzaland-cancel-mirey/ingredients
+POST /pizzaland-cancel-mirey/pizzas
 {
   "id": "7",
   "nom": "chevre",
