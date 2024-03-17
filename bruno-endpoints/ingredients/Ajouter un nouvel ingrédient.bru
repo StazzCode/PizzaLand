@@ -7,7 +7,12 @@ meta {
 post {
   url: http://localhost:8080/pizzaland-cancel-mirey/ingredients
   body: json
-  auth: none
+  auth: basic
+}
+
+auth:basic {
+  username: admin
+  password: admin
 }
 
 body:json {

@@ -13,12 +13,11 @@ import dao.IngredientDAODatabase;
 import dto.Ingredient;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/ingredients/*")
-public class IngredientRestAPI extends HttpServlet{
+public class IngredientRestAPI extends Controleur {
     DAOIngredient dao = new IngredientDAODatabase();
 
     @Override
@@ -27,32 +26,32 @@ public class IngredientRestAPI extends HttpServlet{
         ObjectMapper obj = new ObjectMapper();
         PrintWriter out = res.getWriter();
         String info = req.getPathInfo();
-        if(info == null || info.equals("/")){
+        if (info == null || info.equals("/")) {
             Collection<Ingredient> list = dao.findAll();
             out.println(obj.writeValueAsString(list));
             return;
         }
         String[] splits = info.split("/");
-        if(splits.length < 2 || splits.length > 3){
+        if (splits.length < 2 || splits.length > 3) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
 
-        try{
+        try {
             int id = Integer.parseInt(splits[1]);
             Ingredient i = dao.findById(id);
-            if(i == null){
+            if (i == null) {
                 res.sendError(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }
-            if(splits.length == 2){
+            if (splits.length == 2) {
                 out.println(obj.writeValueAsString(i));
-            }else if(splits[2].equals("name")){
+            } else if (splits[2].equals("name")) {
                 out.println(obj.writeValueAsString(i.getNom()));
-            }else{
+            } else {
                 res.sendError(HttpServletResponse.SC_BAD_REQUEST);
             }
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             out.println(e.getMessage());
         }
         return;
@@ -60,44 +59,49 @@ public class IngredientRestAPI extends HttpServlet{
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        res.setContentType("application/json;charset=UTF-8");
-        ObjectMapper obj = new ObjectMapper();
-        PrintWriter out = res.getWriter();
-        BufferedReader bf = new BufferedReader(new InputStreamReader(req.getInputStream()));
-        String data = bf.readLine();
-        
-        Ingredient i = obj.readValue(data, Ingredient.class);
-        if(dao.findById(i.getId()) != null){
-            res.sendError(HttpServletResponse.SC_CONFLICT);
-            return;
+        if (verifToken(req, res)) {
+            res.setContentType("application/json;charset=UTF-8");
+            ObjectMapper obj = new ObjectMapper();
+            PrintWriter out = res.getWriter();
+            BufferedReader bf = new BufferedReader(new InputStreamReader(req.getInputStream()));
+            String data = bf.readLine();
+
+            Ingredient i = obj.readValue(data, Ingredient.class);
+            if (dao.findById(i.getId()) != null) {
+                res.sendError(HttpServletResponse.SC_CONFLICT);
+                return;
+            }
+            dao.save(i);
+            out.println(data);
         }
-        dao.save(i);
-        out.println(data);
+
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        res.setContentType("application/json;charset=UTF-8");
-        String info = req.getPathInfo();
+        if (verifToken(req, res)) {
+            res.setContentType("application/json;charset=UTF-8");
+            String info = req.getPathInfo();
 
-        if(info == null || info.equals("/")){
-            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
+            if (info == null || info.equals("/")) {
+                res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
 
-        String[] splits = info.split("/");
-        if(splits.length!=2){
-            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
+            String[] splits = info.split("/");
+            if (splits.length != 2) {
+                res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
 
-        int id = Integer.parseInt(splits[1]);
-        Ingredient i = dao.findById(id);
-        if(i == null){
-            res.sendError(HttpServletResponse.SC_NOT_FOUND);
-            return;
+            int id = Integer.parseInt(splits[1]);
+            Ingredient i = dao.findById(id);
+            if (i == null) {
+                res.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+            dao.remove(id);
+            res.sendError(HttpServletResponse.SC_NO_CONTENT);
         }
-        dao.remove(id);
-        res.sendError(HttpServletResponse.SC_NO_CONTENT);
     }
 }
